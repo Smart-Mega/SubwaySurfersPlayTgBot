@@ -1,0 +1,21 @@
+{
+  "name": "@repo/email-template",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "email dev --dir src --port 8000",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@react-email/components": "0.0.17",
+    "react": "^18.2.0",
+    "react-email": "^2.1.2"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/react": "^18.3.2"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

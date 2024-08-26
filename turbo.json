@@ -1,0 +1,35 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env"],
+  "globalDotEnv": [".env"],
+  "pipeline": {
+    "build": {
+      "dotEnv": [".env"],
+      "dependsOn": ["^build"]
+    },
+    "dev": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "persistent": true
+    },
+    "lint": {
+      "dependsOn": ["^build"]
+    },
+    "typecheck": {
+      "dependsOn": ["^build"]
+    },
+    "clean": {
+      "cache": false
+    },
+    "test": {
+      "outputs": ["coverage/**"],
+      "dependsOn": []
+    },
+    "api:migrate": { "cache": false },
+    "api:migrate:undo": { "cache": false },
+    "api:migrate:generate": {},
+    "api:seed": { "cache": false },
+    "api:seed:undo": { "cache": false },
+    "api:seed:generate": {}
+  }
+}

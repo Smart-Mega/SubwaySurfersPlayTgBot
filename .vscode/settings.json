@@ -1,0 +1,69 @@
+{
+  "cSpell.words": [
+    "Capitalised",
+    "clsx",
+    "cmdk",
+    "codesandbox",
+    "datatable",
+    "dicebear",
+    "embla",
+    "eruda",
+    "esbenp",
+    "filesize",
+    "healthcheck",
+    "hookform",
+    "hstore",
+    "Includeable",
+    "keyuri",
+    "leaderboard",
+    "Licence",
+    "lucide",
+    "NCCP",
+    "organisation",
+    "otpauth",
+    "otplib",
+    "prefs",
+    "Probot",
+    "qrcode",
+    "redisclient",
+    "sendgrid",
+    "shadcn",
+    "signin",
+    "signup",
+    "sonner",
+    "specialising",
+    "Suncorp",
+    "swiper",
+    "tailwindcss",
+    "tanstack",
+    "SMALLINT",
+    "tonconnect",
+    "totp",
+    "tsup",
+    "typecheck",
+    "uiext",
+    "unflatten",
+    "UUIDV",
+    "vaul",
+    "zustand"
+  ],
+  "cSpell.ignorePaths": ["pnpm-lock.yaml"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.format": "explicit"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnType": true,
+  "editor.tabSize": 2,
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  "prettier.configPath": ".prettierrc",
+  "[svg]": {
+    "editor.defaultFormatter": "jock.svg"
+  }
+}

@@ -1,0 +1,33 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master  # Ветка, по пушу в которую будет запускаться деплой
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Add SSH key
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Deploy and build on server
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa root@195.114.193.110 << 'EOF'
+          cd /var/www/megaton
+          git pull
+          pnpm install  # Установка зависимостей, если нужно
+          pnpm run clean
+          pnpm run build
+          cd /var/www/megaton/apps/api/
+          pm2 delete megaton-api || true
+          pm2 start dist/index.cjs --name megaton-api
+          pm2 save
+        EOF
