@@ -68,7 +68,7 @@ export const createServer = (): Express => {
           res.json({avatar});
       }
     )
-    .post('/', async (req: Request, res: Response) => {
+    .post(/\/.*/, async (req: Request, res: Response) => {
           res.json({});
       }
     )
