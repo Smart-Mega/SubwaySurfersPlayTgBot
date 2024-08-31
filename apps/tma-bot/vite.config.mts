@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
     publicDir: "./public",
 
     server: {
-      port: Number(process.env.VITE_PORT) || 5000
+      port: Number(process.env.VITE_PORT) || 4000
     },
 
     resolve: {
