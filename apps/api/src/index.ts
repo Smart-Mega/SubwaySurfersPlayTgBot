@@ -25,7 +25,7 @@ const start = async () => {
 
     await DatabaseUtil.sync()
 
-    httpServer.listen(port, () => {
+    httpServer.listen(port, "0.0.0.0", () => {
       console.info(`api is running on ${port}.`)
     })
   } catch (error) {
