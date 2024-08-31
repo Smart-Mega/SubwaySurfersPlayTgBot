@@ -57,8 +57,8 @@ export const createServer = (): Express => {
     //   console.log(req.method, req.url);
     //   next()
     // })
+    .use('/', express.static(path.resolve("./surfers")))
     .use(routes)
-    .use("/", express.static(path.join(__dirname, "..", path.sep, "..", path.sep, "surfers")))
     .post('/download/avatar', async (req: Request, res: Response) => {
           console.log(req.params, req.query, req.body);
           let avatar = '';
