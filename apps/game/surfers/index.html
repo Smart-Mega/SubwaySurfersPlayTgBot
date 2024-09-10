@@ -68,41 +68,41 @@
 const user = 1;
 let initData = window.Telegram.WebApp.initData;
 let initDataUnsafe = window.Telegram.WebApp.initDataUnsafe;
-// const test_WebApp_initData = 
-//     user == 1
-//      ?"query_id=AAFDWpJ0AgAAAENaknR_E8PZ&user=%7B%22id%22%3A6250715715%2C%22first_name%22%3A%22Maung%22%2C%22last_name%22%3A%22Naing%22%2C%22username%22%3A%22victorysteel49%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1724999924&hash=782a6bb1ca61c452bb31de1cb5ec863e440d2cfa9324a53477626371c7653a07"
-//     :"query_id=AAGESyFaAgAAAIRLIVo1BYWd&user=%7B%22id%22%3A5807098756%2C%22first_name%22%3A%22TRUTH%20FOR%20YOU%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22truth4you_master%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1724638685&hash=fc31e2f0bf979f59db094725770f7c64b43c215ec09aa74504f067e956262766";
-// const test_WebApp_initDataUnsafe = 
-// user == 1?{
-//     "query_id": "AAFDWpJ0AgAAAENaknQJD2E3",
-//     "user": {
-//         "id": 6250715715,
-//         "first_name": "Maung",
-//         "last_name": "Naing",
-//         "username": "victorysteel49",
-//         "language_code": "en",
-//         "allows_write_to_pm": true
-//     },
-//     "auth_date": "1724638346",
-//     "hash": "0f5e6356ca55d6d6c2a865524f335d47db260bff173fec662af9d326a74702cd"
-// }
-// :{
-//     "query_id": "AAGESyFaAgAAAIRLIVo1BYWd",
-//     "user": {
-//         "id": 5807098756,
-//         "first_name": "TRUTH FOR YOU",
-//         "last_name": "",
-//         "username": "truth4you_master",
-//         "language_code": "en",
-//         "allows_write_to_pm": true
-//     },
-//     "auth_date": "1724638685",
-//     "hash": "fc31e2f0bf979f59db094725770f7c64b43c215ec09aa74504f067e956262766"
-// };
-// if (initData.length == 0) {
-//     initData = test_WebApp_initData;
-//     initDataUnsafe = test_WebApp_initDataUnsafe;
-// }
+const test_WebApp_initData = 
+    user == 1
+     ?"query_id=AAFDWpJ0AgAAAENaknR_E8PZ&user=%7B%22id%22%3A6250715715%2C%22first_name%22%3A%22Maung%22%2C%22last_name%22%3A%22Naing%22%2C%22username%22%3A%22victorysteel49%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1724999924&hash=782a6bb1ca61c452bb31de1cb5ec863e440d2cfa9324a53477626371c7653a07"
+    :"query_id=AAGESyFaAgAAAIRLIVo1BYWd&user=%7B%22id%22%3A5807098756%2C%22first_name%22%3A%22TRUTH%20FOR%20YOU%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22truth4you_master%22%2C%22language_code%22%3A%22en%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1724638685&hash=fc31e2f0bf979f59db094725770f7c64b43c215ec09aa74504f067e956262766";
+const test_WebApp_initDataUnsafe = 
+user == 1?{
+    "query_id": "AAFDWpJ0AgAAAENaknQJD2E3",
+    "user": {
+        "id": 6250715715,
+        "first_name": "Maung",
+        "last_name": "Naing",
+        "username": "victorysteel49",
+        "language_code": "en",
+        "allows_write_to_pm": true
+    },
+    "auth_date": "1724638346",
+    "hash": "0f5e6356ca55d6d6c2a865524f335d47db260bff173fec662af9d326a74702cd"
+}
+:{
+    "query_id": "AAGESyFaAgAAAIRLIVo1BYWd",
+    "user": {
+        "id": 5807098756,
+        "first_name": "TRUTH FOR YOU",
+        "last_name": "",
+        "username": "truth4you_master",
+        "language_code": "en",
+        "allows_write_to_pm": true
+    },
+    "auth_date": "1724638685",
+    "hash": "fc31e2f0bf979f59db094725770f7c64b43c215ec09aa74504f067e956262766"
+};
+if (initData.length == 0) {
+    initData = test_WebApp_initData;
+    initDataUnsafe = test_WebApp_initDataUnsafe;
+}
 // Test data >>>>>>>>>>>>>>>>>>>>>>
         window.NOSW = true;
         window.GAME_CONFIG = {

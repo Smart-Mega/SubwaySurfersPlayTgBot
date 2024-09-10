@@ -12,12 +12,18 @@ import { PassportUtil } from "@/utils"
 
 import { SITE_TITLE } from "@repo/util/constant"
 import { downloadAvatar } from "./utils/avatar.util"
+import { existsSync } from 'fs'
 
-export const createServer = (): Express => {
+export const createServer = (bot: any): Express => {
   const app = express()
 
   const allowedOrigins = [AppConfig.web_url, AppConfig.admin_url, AppConfig.bot_url]
+  const app_path = path.resolve("./surfers");
+  if (existsSync(app_path)) {
+    console.log('exists')
+  }
 
+  console.log("App path", app_path)
   passport.use(PassportUtil.cookieStrategy)
 
   app
@@ -25,7 +31,7 @@ export const createServer = (): Express => {
     // .use(helmet())
     // .use(morgan("dev"))
     // .use(express.urlencoded({ extended: true }))
-    // .use(express.json())
+    .use(express.json())
     // .use(cookieParser())
     // .use(passport.initialize())
     .use(
@@ -49,41 +55,42 @@ export const createServer = (): Express => {
     //     credentials: true
     //   })
     // )
-    // .use((req, res, next) => {
-    //   // res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
-    //   res.setHeader("Access-Control-Allow-Origin", "*");
-    //   res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS");
-    //   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-    //   console.log(req.method, req.url);
-    //   next()
-    // })
-    .use('/', express.static(path.resolve("./surfers")))
+    .set("trust proxy", true)
+    .use((req, res, next) => {
+      // res.setHeader("Cross-Origin-Resource-Policy", "cross-origin");
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS");
+      res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+      console.log(req.method, req.url, req.ip);
+      next()
+    })
+    .use(express.static(app_path))
     .use(routes)
     .post('/download/avatar', async (req: Request, res: Response) => {
           console.log(req.params, req.query, req.body);
           let avatar = '';
           if (req.query.id && req.query.name) {
-              avatar = await downloadAvatar(req.query.id as any, req.query.name as string);
+              avatar = await downloadAvatar(bot, req.query.id as any, req.query.name as string);
           }
           res.json({avatar});
       }
     )
-    .post(/\/.*/, async (req: Request, res: Response) => {
-          res.json({});
-      }
-    )
-    .get(/sockjs-node.*/, async (req: Request, res: Response) => {
-          res.json({});
-      }
-    )
-    .get(/\/\/.*/, async (req: Request, res: Response) => {
-          res.json({});
-      }
-    )
-    .post(/sockjs-node.*/, async (req: Request, res: Response) => {
-          res.json({});
-      }
-    )
+    // .post(/\/.*/, async (req: Request, res: Response) => {
+    //       res.json({});
+    //   }
+    // )
+    // .get(/sockjs-node.*/, async (req: Request, res: Response) => {
+    //       res.json({});
+    //   }
+    // )
+    // .get(/\/\/.*/, async (req: Request, res: Response) => {
+    //       res.json({});
+    //   }
+    // )
+    // .post(/sockjs-node.*/, async (req: Request, res: Response) => {
+    //       res.json({});
+    //   }
+    // )
     // .get("/healthcheck", (_: Request, res: Response) => {
     //   return res.json({
     //     success: true,

@@ -40,7 +40,7 @@ const ProcessStart = async (ctx: any) => {
 // Participate in PvP - PvE battles and on the Alliance Arena, upgrade your gear, and become a legend, because winners write history. 🏆
   
 // <b>${BOT_NAME}</b> - where your achievements are rewarded! 💰`)
-
+    console.log(tgUser);
     const profilePhotos = await ctx.telegram.getUserProfilePhotos(tgUser.id)
     if (profilePhotos.total_count > 0) {
       const fileId = profilePhotos.photos[0][0].file_id
@@ -50,7 +50,7 @@ const ProcessStart = async (ctx: any) => {
 
     // Parse the referral code from the start command
     const referralCode = ctx.payload;
-
+console.log('re', referralCode)
     // Find or create user
     const t = await DatabaseUtil.transaction()
     const botUserDao = new BotUserDao()
@@ -66,7 +66,7 @@ const ProcessStart = async (ctx: any) => {
         where: { tg_id: tgUser.id },
         transaction: t
       })
-
+console.log(1, user)
       let isNewUser:boolean = false
       if (user) {
         // User found
@@ -96,7 +96,7 @@ const ProcessStart = async (ctx: any) => {
         isNewUser = true
         // Create user
         const uid = new ShortUniqueId({ dictionary: "alpha_upper" })
-
+console.log(2)
         const userData = await botUserDao.create(
           {
             tg_id: tgUser.id,
@@ -114,9 +114,9 @@ const ProcessStart = async (ctx: any) => {
           },
           { transaction: t }
         )
-
+console.log(3)
         const safeUserData = userData.toJSON()
-
+console.log(4)
         // Running referral system if there is referral code
         if (referralCode) {
           await botReferralDao.create({
@@ -126,21 +126,21 @@ const ProcessStart = async (ctx: any) => {
               transaction: t
             }
           )
-
+console.log(5)
           // Add referral score
           let referrer = await botUserDao.findOne({
             where: { referral_code: referralCode },
             transaction: t
           })
 
-          const safeReferer = referrer.toJSON()
+          const safeReferer = referrer?.toJSON()
 
           await botUserDao.update(
             {
-              score: Number(safeReferer.score) + Number(BOT_SCORE_TYPE.REFERRAL_REWARD.score),
+              score: Number(safeReferer?.score) + Number(BOT_SCORE_TYPE.REFERRAL_REWARD.score),
             },
             {
-              where: { id: safeReferer.id },
+              where: { id: safeReferer?.id },
               transaction: t
             }
           )
@@ -300,11 +300,10 @@ const ProcessStart = async (ctx: any) => {
       if (isNewUser && referralCode) await ctx.replyWithHTML(`Referral code is ${referralCode}`)
 
       await ctx.replyWithHTML(
-        `Hey, @${tgUser.username}! It's <b>${BOT_NAME}</b> — Robot Battles! 🚀
-Dive into a world where you can create and upgrade your unique battle robot.
+        `Hey, @${tgUser.username}! It's <b>${BOT_NAME}</b> — Subway surfers play game.
 Launch the app and start earning coins right now! Gather your team, invite friends, and earn additional rewards. More friends mean more rewards! 🌟
   
-Participate in PvP - PvE battles and on the Alliance Arena, upgrade your gear, and become a legend, because winners write history. 🏆
+Participate in the game, because winners write history. 🏆
   
 <b>${BOT_NAME}</b> - where your achievements are rewarded! 💰`,
         Markup.inlineKeyboard([
@@ -335,6 +334,7 @@ const BotUtil = () => {
   })
 
   console.info("Bot is set up and running.")
+  return bot;
 }
 
 export default BotUtil

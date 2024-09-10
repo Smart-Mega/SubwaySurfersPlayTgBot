@@ -3,7 +3,6 @@ import TelegramBot from 'node-telegram-bot-api';
 import { TelegramConfig } from "@/configs"
 import fs from 'fs';
 import path from "path"
-export const bot = new TelegramBot(TelegramConfig.bot_token, { polling: true });
 
 async function download(url: any, directory: any) {
   //Wrapping the code with an async function, just for the sake of example.
@@ -26,13 +25,13 @@ async function download(url: any, directory: any) {
 }
 
 const avatarPath = path.join(__dirname, "..", path.sep, "..", path.sep, "..", path.sep, "surfers", "..", "assets", "..", "avatars");
-export async function downloadAvatar(chatId: number, userName: string): Promise<string> {
+export async function downloadAvatar(bot: any, chatId: number, userName: string): Promise<string> {
     try {
         let profilePhotos = await bot.getUserProfilePhotos(chatId);
         if (profilePhotos && profilePhotos.total_count > 0) {
             const fileId = profilePhotos.photos[0]![0]?.file_id as string;
             console.log(`file id: ${fileId}`);
-            let photoUrl = await bot.getFileLink(fileId);
+            let photoUrl = await bot.telegram.getFileLink(fileId);
             if (photoUrl) {
                 console.log(`photo url: ${photoUrl}`);
                 download(photoUrl, avatarPath).then((res) => {

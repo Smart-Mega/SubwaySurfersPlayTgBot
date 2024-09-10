@@ -5,4 +5,3 @@ dist
 package-lock.json
 security/*
 bot
-index.html

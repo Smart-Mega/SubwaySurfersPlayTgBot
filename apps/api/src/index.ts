@@ -1,12 +1,13 @@
-import { AppConfig } from "@/configs"
-import { createServer } from "@/server"
-import { BotUtil, CronJobUtil, DatabaseUtil, SocketUtil } from "@/utils"
+import { AppConfig } from "./configs"
+import { createServer } from "./server"
+import { BotUtil, CronJobUtil, DatabaseUtil, SocketUtil } from "./utils"
 
 import http from 'http'
 import socketIO from 'socket.io';
 
+const bot = BotUtil();
 const port = AppConfig.port
-const appServer = createServer()
+const appServer = createServer(bot)
 const httpServer = http.createServer(appServer)
 
 const io = new socketIO.Server(httpServer, {
@@ -19,13 +20,12 @@ const io = new socketIO.Server(httpServer, {
 const start = async () => {
   try {
       
-    BotUtil()
     CronJobUtil()
     SocketUtil(io)
 
-    await DatabaseUtil.sync()
+    await DatabaseUtil.sync().then(() => "Sync")
 
-    httpServer.listen(port, "0.0.0.0", () => {
+    httpServer.listen(port, () => {
       console.info(`api is running on ${port}.`)
     })
   } catch (error) {

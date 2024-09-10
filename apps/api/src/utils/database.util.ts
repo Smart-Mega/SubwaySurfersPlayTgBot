@@ -27,7 +27,7 @@ const DatabaseUtil = new Sequelize({
   database: DatabaseConfig.database,
   username: DatabaseConfig.username,
   password: DatabaseConfig.password,
-  logging: false
+  logging: true
 })
 
 DatabaseUtil.addModels([
