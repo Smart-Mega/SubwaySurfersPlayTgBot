@@ -1,7 +1,0 @@
-node_modules
-dist
-.idea
-.env
-package-lock.json
-security/*
-bot
