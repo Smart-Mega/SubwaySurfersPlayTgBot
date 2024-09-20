@@ -24,8 +24,17 @@
     "typescript-eslint": "^8.4.0"
   },
   "dependencies": {
+    "@tonconnect/sdk": "^3.0.5",
+    "@types/firebase": "^3.2.1",
+    "@types/ws": "^8.5.12",
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.19.2",
-    "node-telegram-bot-api": "^0.66.0"
+    "firebase": "^10.13.1",
+    "node-telegram-bot-api": "^0.66.0",
+    "nodejs-file-downloader": "^4.13.0",
+    "ws": "^8.18.0"
   }
 }
