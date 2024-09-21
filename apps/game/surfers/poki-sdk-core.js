@@ -3742,7 +3742,7 @@
                     case 2:
                         return [2, n.sent().ISO];
                     case 3:
-                        return t = n.sent(), console.error(t), [2, "ZZ"];
+                        return t = n.sent(), console.log(t), [2, "ZZ"];
                     case 4:
                         return [2]
                 }

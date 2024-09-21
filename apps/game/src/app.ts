@@ -72,7 +72,7 @@ onValue(groupsRef, (snapshot) => {
 });
 
 const app = express();
-const port = 5000;
+const port = process.env.API_PORT;
 
 // create application/json parser
 var jsonParser = bodyParser.json();
