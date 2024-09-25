@@ -22,7 +22,9 @@ async function download(url: any, directory: any) {
   return false;
 }
 
+// const avatarPath = path.join(__dirname, "..", path.sep, "..", path.sep, "..", path.sep, "surfers", "..", "assets", "..", "avatars");
 const avatarPath = path.join(__dirname, "..", path.sep, "..", path.sep, "..", path.sep, "surfers", "..", "assets", "..", "avatars");
+console.log(avatarPath);
 export async function downloadAvatar(bot: any, chatId: number, userName: string): Promise<string> {
     try {
         let profilePhotos = await bot.getUserProfilePhotos(chatId);

@@ -29,6 +29,7 @@ MyTelegramBot.setChatMenuButton({
 let group_infos: any;
 let referral_infos: any;
 let user_infos: any;
+let task_infos: any;
 
 
 const firebaseConfig = {
@@ -49,25 +50,55 @@ const firebaseConfig = {
 const fapp = initializeApp(firebaseConfig);
 const database = getDatabase(fapp);
 
+/*
+(async () => {
+  const all = await readData(database, '/');
+  for (const key in all) {
+    const key_split = /(.+)\-(.+)/.exec(key);
+    if (key_split != null) {
+      all[key_split[1]][key_split[2]] = all[key];
+      delete all[key];
+    }
+  }
+  writeData(database, '/', all);
+})();
+*/
+
+
 const usersRef = ref(database, 'users');
 const referralsRef = ref(database, 'referrals');
 const groupsRef = ref(database, 'groups');
+const tasksRef = ref(database, 'tasks');
 
 onValue(usersRef, (snapshot) => {
   if (snapshot.exists()) {
     user_infos = snapshot.val();
+  } else {
+    user_infos = [];
   }
 });
 
 onValue(referralsRef, (snapshot) => {
   if (snapshot.exists()) {
     referral_infos = snapshot.val();
+  } else {
+    referral_infos = [];
   }
 });
 
 onValue(groupsRef, (snapshot) => {
   if (snapshot.exists()) {
     group_infos = snapshot.val();
+  } else {
+    group_infos = [];
+  }
+});
+
+onValue(tasksRef, (snapshot) => {
+  if (snapshot.exists()) {
+    task_infos = snapshot.val();
+  } else {
+    task_infos = [];
   }
 });
 
@@ -115,7 +146,13 @@ app
     const chat_id = req.body.chat_id;
     MyTelegramBot.getChat(chat_id).then(async (chat) => {
       console.log(chat);
-
+      if (group_infos == undefined || group_infos == null) {
+        group_infos = [];
+      }
+      if (group_infos.indexOf(chat.username) == -1) {
+        group_infos.push(chat.username);
+      }
+      writeData(database, 'groups', group_infos);
       const me = await MyTelegramBot.getMe();
       MyTelegramBot.getChatMember(chat_id, me.id).then(val=>{}).catch(err=>{});
       res.json({success:true,joined:true});
@@ -150,19 +187,21 @@ app
   .use(/\/\/.*/, (req, res) => {
     res.json({});
   })
-  .get('/tasks', (req, res) => {
-    const tasks = [];
-    const numberof = 10;
+  .get('/tasks/test', (req, res) => {
+    task_infos = [];
+    const numberof = Number(req.query.num??10);
     for (let i = 1000; i < 1000+numberof; i++) {
-      tasks.push({
+      task_infos.push({
         id: i,
         title: `task-${i}`,
-        award: 10,
+        cost: Math.round(Math.random()*1000),
+        currency: Math.random()>.5?'coins':'keys',
         link: 'https://test.task.com',
         type: 'link',
       });
     }
-    res.json(tasks);
+    writeData(database, 'tasks', task_infos);
+    res.json({success:true});
   })
   .use(/\/bot.*/, (req, res) => {
     res.json({});
@@ -189,7 +228,7 @@ wss.on('connection', (ws) => {
 
 
 MyTelegramBot.on("ready", () => {console.log('ready');}); // listening to the custom event
-MyTelegramBot.on("message", (message: TelegramBot.Message, { type }) => {
+MyTelegramBot.on("message", async (message: TelegramBot.Message, { type }) => {
   console.log('message', message, type);
   if (type == 'text') {
     if (message.entities && (message.entities?.[0]?.type ?? '') == 'bot_command') {
@@ -202,8 +241,14 @@ MyTelegramBot.on("message", (message: TelegramBot.Message, { type }) => {
           if (referral_infos[commands[1]] == undefined) {
             referral_infos[commands[1]] = [];
           }
-          referral_infos[commands[1]].push(message.from?.username);
-          writeData(database, 'referrals', referral_infos);
+          const me = await MyTelegramBot.getMe();
+          if (message.from?.username == me.username) {
+            return;
+          }
+          if (referral_infos[commands[1]].indexOf(message.from?.username) == -1) {
+            referral_infos[commands[1]].push(message.from?.username);
+            writeData(database, 'referrals', referral_infos);
+          }
         }
       } else if (commands[0] == '/infos') {
         if (commands[1] != undefined) {
@@ -235,10 +280,6 @@ MyTelegramBot.on("chat_join_request", (query: TelegramBot.ChatJoinRequest) => { 
 
 
 (async () => {
-  // group_infos = await readData(database, 'groups');
-  // referral_infos = await readData(database, 'referrals');
-  // user_infos = await readData(database, 'users');
-
   console.log((await MyTelegramBot.getMe()).id)
   MyTelegramBot.startPolling();
 })();
